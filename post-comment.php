@@ -1,0 +1,18 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])) { http_response_code(401); exit; }
+$idea_id    = intval($_POST['idea_id']);
+$comment    = trim($_POST['comment']);
+$user_email = $conn->real_escape_string($_SESSION['email']);
+
+if($comment==='') { http_response_code(400); exit; }
+
+$conn = new mysqli("localhost","root","","ideastream1");
+$stmt = $conn->prepare("
+  INSERT INTO idea_comments (idea_id, user_email, comment)
+  VALUES (?, ?, ?)
+");
+$stmt->bind_param("iss", $idea_id, $user_email, $comment);
+$stmt->execute();
+echo json_encode(['success'=>true]);
+?>

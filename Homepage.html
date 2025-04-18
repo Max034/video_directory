@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IdeaStreamX - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 to-gray-800 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header
+        class="bg-gradient-to-r from-purple-800 to-indigo-600 py-4 px-6 flex items-center justify-between shadow-lg">
+        <a href="project.html" class="flex items-center space-x-3">
+            <img src="logo.ico" alt="Logo" class="w-12 h-12">
+            <span class="text-2xl font-bold tracking-wide">IdeaStreamX</span>
+        </a>
+        <nav class="flex items-center space-x-6">
+            <a href="project.html" class="hover:text-gray-300">Home</a>
+            <a href="services.html" class="hover:text-gray-300">Service</a>
+            <a href="about.html" class="hover:text-gray-300">About</a>
+            <a href="signin.html"
+                class="bg-white text-indigo-700 px-4 py-2 rounded hover:bg-gray-200 font-semibold">Sign In</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="text-center py-20 px-4 flex-grow">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Welcome to <span class="text-purple-500">IdeaStreamX</span></h1>
+        <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-300">Discover innovative business ideas. Share
+            your own. Inspire others.</p>
+        <a href="signup.html"
+            class="bg-purple-600 hover:bg-purple-800 transition px-6 py-3 rounded-full text-white font-semibold text-lg">Join
+            the Community</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-gray-800 py-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-purple-400 mb-12">Platform Features</h2>
+            <div class="grid md:grid-cols-3 gap-10 text-center">
+                <div class="bg-gray-900 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <div class="text-purple-400 text-4xl mb-4">🔍</div>
+                    <h3 class="text-xl font-semibold mb-2 text-purple-300">Discover</h3>
+                    <p class="text-gray-300">Explore a growing library of business ideas submitted by users around the
+                        world.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <div class="text-purple-400 text-4xl mb-4">📤</div>
+                    <h3 class="text-xl font-semibold mb-2 text-purple-300">Share</h3>
+                    <p class="text-gray-300">Post your own ideas with optional videos and blogs to inspire others.</p>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <div class="text-purple-400 text-4xl mb-4">🤝</div>
+                    <h3 class="text-xl font-semibold mb-2 text-purple-300">Connect</h3>
+                    <p class="text-gray-300">Comment and engage with others, build meaningful entrepreneurial
+                        connections.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Ideas Preview -->
+    <section class="py-12 bg-gray-900">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-6 text-center text-white">Latest Business Ideas</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Idea 1 -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                    <div class="relative w-full aspect-video mb-4">
+                        <iframe class="absolute top-0 left-0 w-full h-full rounded"
+                            src="https://www.youtube.com/embed/0YEVARvW9Yk?si=9qJiz6rHZfbqi1Vr"
+                            title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-gray-300 font-medium">A marketplace app for renting personal tools and equipment in
+                        local areas.</p>
+                </div>
+
+                <!-- Idea 2 -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                    <div class="relative w-full aspect-video mb-4">
+                        <iframe class="absolute top-0 left-0 w-full h-full rounded"
+                            src="https://www.youtube.com/embed/9VlvbpXwLJs?si=FZTXzrkf8vv5tlZi"
+                            title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-gray-300 font-medium">Crowdsourced delivery app for college campuses.</p>
+                </div>
+
+                <!-- Idea 3 -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                    <div class="relative w-full aspect-video mb-4">
+                        <iframe class="absolute top-0 left-0 w-full h-full rounded"
+                            src="https://www.youtube.com/embed/C5M0PwBE4uI?si=JOLcOOlSO7Jmc-Qh"
+                            title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-gray-300 font-medium">An AI-powered fitness assistant app that adjusts routines
+                        dynamically based on progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-12 bg-gray-800 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 text-white">What Our Users Say</h2>
+            <div class="space-y-6 text-gray-300">
+                <blockquote class="italic">"IdeaStreamX helped me launch my startup. It's like a playground for
+                    entrepreneurs!" – Anjali, India</blockquote>
+                <blockquote class="italic">"Sharing my idea got me a mentor in just a week!" – David, USA</blockquote>
+                <blockquote class="italic">"Love the community vibe here. It keeps me motivated." – Fatima, UAE
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro Video Section -->
+    <section class="py-12 bg-gray-900 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-6 text-white">Get to Know IdeaStreamX</h2>
+            <div class="relative w-full aspect-video">
+                <iframe class="absolute top-0 left-0 w-full h-full rounded"
+                    src="https://www.youtube.com/embed/z3fmTwXv1WQ?si=k3ueDCSf0xsLa_MF" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen frameborder="0"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6 text-center text-sm text-gray-400">
+        &copy; 2025 IdeaStreamX. All rights reserved. | <a href="contact.html" class="hover:text-white">Contact Us</a>
+    </footer>
+
+</body>
+</html>

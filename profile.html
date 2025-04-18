@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Profile – IdeaStreamX</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 font-sans">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-purple-800 to-indigo-600 text-white py-4 px-6 flex items-center justify-between shadow-lg rounded-lg">
+    <a href="project.html" class="flex items-center space-x-2">
+      <img src="logo.ico" alt="Logo" class="w-12 h-12"/>
+      <h1 class="text-3xl font-bold">IdeaStreamX</h1>
+    </a>
+    <nav class="flex items-center space-x-8">
+      <a href="services.html" class="hover:text-gray-300">Service</a>
+      <a href="about.html"    class="hover:text-gray-300">About</a>
+      <a href="logout.php"    class="bg-white text-indigo-700 px-5 py-2 rounded-lg hover:bg-gray-200 font-semibold">Sign Out</a>
+    </nav>
+  </header>
+
+  <div class="max-w-5xl mx-auto mt-10">
+    <!-- Profile Pic Section -->
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg mb-8 flex items-center">
+      <img id="profileImage" src="default-profile.png" alt="Profile" class="w-24 h-24 rounded-full shadow-md mr-6 object-cover"/>
+      <input type="file" id="uploadProfile" class="hidden" accept="image/*"/>
+      <button onclick="document.getElementById('uploadProfile').click()"
+        class="bg-purple-600 hover:bg-purple-800 px-4 py-2 rounded text-sm">
+        Edit Profile Pic
+      </button>
+    </div>
+
+    <!-- Success Banner -->
+    <div id="successMessage"
+         class="hidden bg-green-600 text-white p-4 rounded mb-6 text-center font-semibold shadow-md">
+      Your idea was submitted successfully!
+    </div>
+
+    <!-- Share New Idea Button -->
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg mb-10 flex justify-center">
+      <a href="share.html"
+         class="bg-purple-700 hover:bg-purple-900 px-6 py-3 rounded text-white font-semibold text-lg transition">
+        Share a New Idea
+      </a>
+    </div>
+
+    <!-- Your Ideas with Metrics -->
+    <div class="bg-gray-900 p-6 rounded-lg shadow-xl">
+      <h2 class="text-2xl font-semibold text-white mb-6">Your Shared Business Ideas</h2>
+      <div id="ideasContainer" class="space-y-8"></div>
+      <div id="noIdeas" class="text-gray-400 text-center hidden">
+        You haven't shared any ideas yet.
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-4 mt-12 text-center">
+    <p>&copy; 2025 IdeaStreamX. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('uploadProfile').addEventListener('change', async e => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('profile', file);
+
+      const res = await fetch('upload-profile.php', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (res.ok) {
+        const path = await res.text();
+        document.getElementById('profileImage').src = path + '?t=' + Date.now();
+      } else {
+        alert('Upload failed.');
+      }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('submitted') === 'true') {
+      const msg = document.getElementById('successMessage');
+      msg.classList.remove('hidden');
+      setTimeout(() => msg.classList.add('hidden'), 5000);
+    }
+
+    async function loadProfilePic() {
+      const res = await fetch('get-profile-pic.php');
+      if (res.ok) {
+        const path = await res.text();
+        document.getElementById('profileImage').src = path || 'default-profile.png';
+      }
+    }
+
+    async function loadVideos() {
+      const res = await fetch('get-user-videos.php');
+      const videos = await res.json();
+      const container = document.getElementById('ideasContainer');
+      const noIdeas   = document.getElementById('noIdeas');
+      container.innerHTML = '';
+
+      if (!videos.length) {
+        noIdeas.classList.remove('hidden');
+        return;
+      }
+
+      videos.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-800 p-6 rounded-lg shadow-lg';
+        card.innerHTML = `
+          <h3 class="text-xl font-semibold text-purple-400">${v.title}</h3>
+          <p class="mb-2 text-gray-300">${v.description}</p>
+          <iframe src="${v.video_url}" class="w-full aspect-video rounded mb-4" frameborder="0" allowfullscreen></iframe>
+          
+          <div class="mt-4 flex justify-between items-center text-sm text-gray-400">
+            <button data-id="${v.id}" class="view-btn hover:text-white">👁 ${v.view_count}</button>
+            <button data-id="${v.id}" class="like-btn hover:text-white">👍 ${v.likes}</button>
+            <button data-id="${v.id}" class="comment-toggle hover:text-white">💬 ${v.comments}</button>
+          </div>
+
+          <div class="comment-box hidden mt-2">
+            <input type="text" placeholder="Add comment…" class="w-full p-2 rounded bg-gray-800 text-white comment-input"/>
+            <button data-id="${v.id}" class="submit-comment mt-2 bg-purple-600 px-3 py-1 rounded">Post</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      bindButtons();
+    }
+
+    function bindButtons() {
+      const container = document.getElementById('ideasContainer');
+
+      container.querySelectorAll('.view-btn').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.id;
+          fetch('increment-view.php', {
+            method: 'POST',
+            body: new URLSearchParams({ idea_id: id })
+          });
+          const cnt = +btn.textContent.split(' ')[1] + 1;
+          btn.textContent = `👁 ${cnt}`;
+        };
+      });
+
+      container.querySelectorAll('.like-btn').forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.id;
+          fetch('post-like.php', {
+            method: 'POST',
+            body: new URLSearchParams({ idea_id: id })
+          }).then(() => {
+            const cnt = +btn.textContent.split(' ')[1] + 1;
+            btn.textContent = `👍 ${cnt}`;
+          });
+        };
+      });
+
+      container.querySelectorAll('.comment-toggle').forEach(btn => {
+        const box = btn.closest('div').querySelector('.comment-box');
+        btn.onclick = () => box.classList.toggle('hidden');
+      });
+
+      container.querySelectorAll('.submit-comment').forEach(btn => {
+        btn.onclick = () => {
+          const id    = btn.dataset.id;
+          const input = btn.closest('.comment-box').querySelector('.comment-input');
+          const text  = input.value.trim();
+          if (!text) return;
+
+          fetch('post-comment.php', {
+            method: 'POST',
+            body: new URLSearchParams({ idea_id: id, comment: text })
+          }).then(() => {
+            const toggle = btn.closest('.comment-box')
+                              .previousElementSibling
+                              .querySelector('.comment-toggle');
+            const newCnt = +toggle.textContent.split(' ')[1] + 1;
+            toggle.textContent = `💬 ${newCnt}`;
+            input.value = '';
+          });
+        };
+      });
+    }
+
+    loadProfilePic();
+    loadVideos();
+  </script>
+</body>
+</html>
